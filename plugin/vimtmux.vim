@@ -5,11 +5,20 @@ endif
 let g:loaded_vimtmux = 1
 
 command -nargs=* VimTmuxRunCommand :call VimTmuxRunCommand(<args>)
+command -nargs=? VimTmuxPromptCommand :call VimTmuxPromptCommand(<args>)
 command -nargs=? VimTmuxSetRunner :call VimTmuxSetRunner(<args>)
 
 function! VimTmuxRunCommand(command, ...)
   call VimTmuxSendText(a:command)
   call VimTmuxSendKeys("Enter")
+endfunction
+
+function! VimTmuxPromptCommand(...)
+  let defaultCommand = exists("a:1") ? a:1 : ""
+  let l:command = input("Command: ", defaultCommand, 'shellcmd')
+  if l:command != ""
+    call VimTmuxRunCommand(l:command)
+  endif
 endfunction
 
 function! VimTmuxSetRunner(...)
