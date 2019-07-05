@@ -23,7 +23,13 @@ endfunction
 
 function! VimTmuxSetRunner(...)
   if exists("a:1")
-      let g:VimTmuxRunnerId = VimTmuxGetIdForPane(string(a:1))
+    let l:newRunner = VimTmuxGetIdForPane(string(a:1))
+    if v:shell_error == 0
+      echom "Runner set"
+      let g:VimTmuxRunnerId = l:newRunner
+    else
+      echom "Runner error: ".g:VimTmuxRunnerId
+    endif
   endif
 endfunction
 
