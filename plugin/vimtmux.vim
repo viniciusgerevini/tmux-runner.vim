@@ -12,6 +12,7 @@ command -nargs=? VimTmuxPromptRunner :call VimTmuxPromptRunner(<args>)
 command VimTmuxOpenRunner :call VimTmuxOpenRunner()
 command VimTmuxCloseRunner :call VimTmuxCloseRunner()
 command VimTmuxStopRunner :call VimTmuxStopRunner()
+command VimTmuxZoomRunner :call VimTmuxZoomRunner()
 
 function! VimTmuxRunCommand(command, ...)
   if VimTmuxDoesPaneExist() == 0
@@ -106,4 +107,10 @@ endfunction
 
 function! VimTmuxStopRunner()
   call VimTmuxSendKeys("^c")
+endfunction
+
+function! VimTmuxZoomRunner()
+  if VimTmuxDoesPaneExist() == 1
+    call VimTmuxCommand("resize-pane -Z -t ".g:VimTmuxRunnerId)
+  endif
 endfunction
