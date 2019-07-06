@@ -9,6 +9,10 @@ command -nargs=? VimTmuxPromptCommand :call VimTmuxPromptCommand(<args>)
 command -nargs=? VimTmuxSetRunner :call VimTmuxSetRunner(<args>)
 
 function! VimTmuxRunCommand(command, ...)
+  if VimTmuxDoesPaneExist() == 0
+    call VimTmuxOpenRunner()
+  endif
+
   call VimTmuxSendText(a:command)
   call VimTmuxSendKeys("Enter")
 endfunction
@@ -25,10 +29,10 @@ function! VimTmuxSetRunner(...)
   if exists("a:1")
     let l:newRunner = VimTmuxGetIdForPane(string(a:1))
     if v:shell_error == 0
-      echom "Runner set"
+      echo "Runner set"
       let g:VimTmuxRunnerId = l:newRunner
     else
-      echom "Runner error: ".g:VimTmuxRunnerId
+      echo "Runner error: ".g:VimTmuxRunnerId
     endif
   endif
 endfunction
@@ -45,7 +49,25 @@ function! VimTmuxCommand(arguments)
   return system("tmux ".a:arguments)
 endfunction
 
-function! VimTmuxGetIdForPane(index)
-  return substitute(VimTmuxCommand('display -p -t '.a:index.' "#{session_id}:#{window_id}.#{pane_id}"'), '\n$', '', '')
+function! VimTmuxGetIdForPane(...)
+  let l:target = exists("a:1") ? ' -t '.a:1 : ''
+
+  return substitute(VimTmuxCommand('display -p '.l:target.' "#{session_id}:#{window_id}.#{pane_id}"'), '\n$', '', '')
+endfunction
+
+function! VimTmuxDoesPaneExist()
+  if !exists("g:VimTmuxRunnerId") || g:VimTmuxRunnerId == ""
+    return 0
+  endif
+
+  call VimTmuxCommand('has -t '.g:VimTmuxRunnerId)
+
+  return v:shell_error == 0
+endfunction
+
+function! VimTmuxOpenRunner()
+  call VimTmuxCommand("split-window -p 20 -v")
+  let g:VimTmuxRunnerId = VimTmuxGetIdForPane()
+  call VimTmuxCommand("last-pane")
 endfunction
 
