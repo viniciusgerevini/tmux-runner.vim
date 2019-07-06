@@ -49,6 +49,10 @@ function! VimTmuxCommand(arguments)
   return system("tmux ".a:arguments)
 endfunction
 
+function! VimTmuxOption(option, default)
+  return exists(a:option) ? eval(a:option) : a:default
+endfunction
+
 function! VimTmuxGetIdForPane(...)
   let l:target = exists("a:1") ? ' -t '.a:1 : ''
 
@@ -66,7 +70,10 @@ function! VimTmuxDoesPaneExist()
 endfunction
 
 function! VimTmuxOpenRunner()
-  call VimTmuxCommand("split-window -p 20 -v")
+  let l:orientation = VimTmuxOption("g:VimTmuxRunnerOrientation", "v") == "h" ? "h" : "v"
+  let l:size = VimTmuxOption("g:VimTmuxRunnerSize", 20)
+
+  call VimTmuxCommand("split-window -p ".l:size." -".l:orientation)
   let g:VimTmuxRunnerId = VimTmuxGetIdForPane()
   call VimTmuxCommand("last-pane")
 endfunction
