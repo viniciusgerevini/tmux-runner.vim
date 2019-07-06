@@ -7,6 +7,7 @@ let g:loaded_vimtmux = 1
 command -nargs=* VimTmuxRunCommand :call VimTmuxRunCommand(<args>)
 command -nargs=? VimTmuxPromptCommand :call VimTmuxPromptCommand(<args>)
 command -nargs=? VimTmuxSetRunner :call VimTmuxSetRunner(<args>)
+command -nargs=? VimTmuxPromptRunner :call VimTmuxPromptRunner(<args>)
 
 function! VimTmuxRunCommand(command, ...)
   if VimTmuxDoesPaneExist() == 0
@@ -25,11 +26,15 @@ function! VimTmuxPromptCommand(...)
   endif
 endfunction
 
+function! VimTmuxPromptRunner(...)
+  let l:runner = input("Set new runner: ")
+  call VimTmuxSetRunner(l:runner)
+endfunction
+
 function! VimTmuxSetRunner(...)
   if exists("a:1")
     let l:newRunner = VimTmuxGetIdForPane(string(a:1))
     if v:shell_error == 0
-      echo "Runner set"
       let g:VimTmuxRunnerId = l:newRunner
     else
       echo "Runner error: ".g:VimTmuxRunnerId
