@@ -14,6 +14,9 @@ command VimTmuxCloseRunner :call VimTmuxCloseRunner()
 command VimTmuxStopRunner :call VimTmuxStopRunner()
 command VimTmuxZoomRunner :call VimTmuxZoomRunner()
 command VimTmuxClearRunner :call VimTmuxClearRunner()
+command VimTmuxInspectRunner :call VimTmuxInspectRunner()
+command VimTmuxScrollUpRunner :call VimTmuxScrollUpRunner()
+command VimTmuxScrollDownRunner :call VimTmuxScrollDownRunner()
 
 function! VimTmuxRunCommand(command, ...)
   if VimTmuxDoesPaneExist() == 0
@@ -123,3 +126,27 @@ function! VimTmuxClearRunner()
     call VimTmuxCommand("clear-history -t ".g:VimTmuxRunnerId)
   endif
 endfunction
+
+function! VimTmuxInspectRunner()
+  if VimTmuxDoesPaneExist() == 1
+    call VimTmuxCommand("select-pane -t ".g:VimTmuxRunnerId)
+    call VimTmuxCommand("copy-mode")
+  endif
+endfunction
+
+function! VimTmuxScrollUpRunner()
+  if VimTmuxDoesPaneExist() == 1
+    call VimTmuxInspectRunner()
+    call VimTmuxSendKeys("C-u")
+    call VimTmuxCommand("last-pane")
+  endif
+endfunction
+
+function! VimTmuxScrollDownRunner()
+  if VimTmuxDoesPaneExist() == 1
+    call VimTmuxInspectRunner()
+    call VimTmuxSendKeys("C-d")
+    call VimTmuxCommand("last-pane")
+  endif
+endfunction
+
