@@ -20,7 +20,9 @@ command VimTmuxScrollDownRunner :call VimTmuxScrollDownRunner()
 
 function! VimTmuxRunCommand(command, ...)
   if VimTmuxDoesPaneExist() == 0
-    call VimTmuxOpenRunner()
+    if VimTmuxStartRunner() == 0
+      return
+    endif
   endif
 
   let g:VimTmuxLastCommand = a:command
@@ -147,6 +149,19 @@ function! VimTmuxScrollDownRunner()
     call VimTmuxInspectRunner()
     call VimTmuxSendKeys("C-d")
     call VimTmuxCommand("last-pane")
+  endif
+endfunction
+
+function! VimTmuxStartRunner()
+  let l:runnerMode = exists("g:VimTmuxNewRunnerMode") ? g:VimTmuxNewRunnerMode : "new"
+
+  if l:runnerMode == 'new'
+    call VimTmuxOpenRunner()
+    return 1
+  else
+    redraw
+    echo 'Runner not defined'
+    return 0
   endif
 endfunction
 
