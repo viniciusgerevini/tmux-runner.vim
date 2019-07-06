@@ -6,6 +6,7 @@ let g:loaded_vimtmux = 1
 
 command -nargs=* VimTmuxRunCommand :call VimTmuxRunCommand(<args>)
 command -nargs=? VimTmuxPromptCommand :call VimTmuxPromptCommand(<args>)
+command VimTmuxRunLastCommand :call VimTmuxRunLastCommand()
 command -nargs=? VimTmuxSetRunner :call VimTmuxSetRunner(<args>)
 command -nargs=? VimTmuxPromptRunner :call VimTmuxPromptRunner(<args>)
 
@@ -13,6 +14,8 @@ function! VimTmuxRunCommand(command, ...)
   if VimTmuxDoesPaneExist() == 0
     call VimTmuxOpenRunner()
   endif
+
+  let g:VimTmuxLastCommand = a:command
 
   call VimTmuxSendText(a:command)
   call VimTmuxSendKeys("Enter")
@@ -23,6 +26,14 @@ function! VimTmuxPromptCommand(...)
   let l:command = input("Command: ", defaultCommand, 'shellcmd')
   if l:command != ""
     call VimTmuxRunCommand(l:command)
+  endif
+endfunction
+
+function! VimTmuxRunLastCommand()
+  if exists("g:VimTmuxLastCommand")
+    call VimTmuxRunCommand(g:VimTmuxLastCommand)
+  else
+    echo "No command to run"
   endif
 endfunction
 
