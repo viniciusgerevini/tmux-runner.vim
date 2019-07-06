@@ -9,6 +9,8 @@ command -nargs=? VimTmuxPromptCommand :call VimTmuxPromptCommand(<args>)
 command VimTmuxRunLastCommand :call VimTmuxRunLastCommand()
 command -nargs=? VimTmuxSetRunner :call VimTmuxSetRunner(<args>)
 command -nargs=? VimTmuxPromptRunner :call VimTmuxPromptRunner(<args>)
+command VimTmuxOpenRunner :call VimTmuxOpenRunner()
+command VimTmuxCloseRunner :call VimTmuxCloseRunner()
 
 function! VimTmuxRunCommand(command, ...)
   if VimTmuxDoesPaneExist() == 0
@@ -92,5 +94,12 @@ function! VimTmuxOpenRunner()
   call VimTmuxCommand("split-window -p ".l:size." -".l:orientation)
   let g:VimTmuxRunnerId = VimTmuxGetIdForPane()
   call VimTmuxCommand("last-pane")
+endfunction
+
+function! VimTmuxCloseRunner()
+  if VimTmuxDoesPaneExist() == 1
+    call VimTmuxCommand("kill-pane -t ".g:VimTmuxRunnerId)
+    unlet g:VimTmuxRunnerId
+  endif
 endfunction
 
