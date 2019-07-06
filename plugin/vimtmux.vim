@@ -13,6 +13,7 @@ command VimTmuxOpenRunner :call VimTmuxOpenRunner()
 command VimTmuxCloseRunner :call VimTmuxCloseRunner()
 command VimTmuxStopRunner :call VimTmuxStopRunner()
 command VimTmuxZoomRunner :call VimTmuxZoomRunner()
+command VimTmuxClearRunner :call VimTmuxClearRunner()
 
 function! VimTmuxRunCommand(command, ...)
   if VimTmuxDoesPaneExist() == 0
@@ -112,5 +113,13 @@ endfunction
 function! VimTmuxZoomRunner()
   if VimTmuxDoesPaneExist() == 1
     call VimTmuxCommand("resize-pane -Z -t ".g:VimTmuxRunnerId)
+  endif
+endfunction
+
+function! VimTmuxClearRunner()
+  if VimTmuxDoesPaneExist() == 1
+    call VimTmuxSendText("clear")
+    call VimTmuxSendKeys("Enter")
+    call VimTmuxCommand("clear-history -t ".g:VimTmuxRunnerId)
   endif
 endfunction
