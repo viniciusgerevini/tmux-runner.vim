@@ -11,6 +11,7 @@ command -nargs=? VimTmuxSetRunner :call VimTmuxSetRunner(<args>)
 command -nargs=? VimTmuxPromptRunner :call VimTmuxPromptRunner(<args>)
 command VimTmuxOpenRunner :call VimTmuxOpenRunner()
 command VimTmuxCloseRunner :call VimTmuxCloseRunner()
+command VimTmuxStopRunner :call VimTmuxStopRunner()
 
 function! VimTmuxRunCommand(command, ...)
   if VimTmuxDoesPaneExist() == 0
@@ -103,3 +104,6 @@ function! VimTmuxCloseRunner()
   endif
 endfunction
 
+function! VimTmuxStopRunner()
+  call VimTmuxSendKeys("^c")
+endfunction
