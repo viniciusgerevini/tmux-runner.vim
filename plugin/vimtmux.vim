@@ -161,6 +161,9 @@ function! VimTmuxStartRunner()
   elseif l:runnerMode == 'nearest'
     call VimTmuxNewRunnerWithNearestPane()
     return 1
+  elseif l:runnerMode == 'last'
+    call VimTmuxNewRunnerLastActivePane()
+    return 1
   else
     redraw
     echo 'Runner not defined'
@@ -193,6 +196,19 @@ endfunction
 
 function! VimTmuxOptionRunnerOrientation()
   return VimTmuxOption("g:VimTmuxRunnerOrientation", "v") == "h" ? "h" : "v"
+endfunction
+
+function! VimTmuxNewRunnerLastActivePane()
+  let l:currentPaneId = VimTmuxGetIdForPane()
+  call VimTmuxCommand("last-pane")
+  let l:lastActivePaneId = VimTmuxGetIdForPane()
+  call VimTmuxCommand("last-pane")
+
+  if l:currentPaneId == l:lastActivePaneId
+    call VimTmuxOpenRunner()
+  else
+    let g:VimTmuxRunnerId = l:lastActivePaneId
+  endif
 endfunction
 
 function! VimTmuxOptionRunnerSize()
