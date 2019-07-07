@@ -96,8 +96,8 @@ function! VimTmuxDoesPaneExist()
 endfunction
 
 function! VimTmuxOpenRunner()
-  let l:orientation = VimTmuxOption("g:VimTmuxRunnerOrientation", "v") == "h" ? "h" : "v"
-  let l:size = VimTmuxOption("g:VimTmuxRunnerSize", 20)
+  let l:orientation = VimTmuxOptionRunnerOrientation()
+  let l:size = VimTmuxOptionRunnerSize()
 
   call VimTmuxCommand("split-window -p ".l:size." -".l:orientation)
   let g:VimTmuxRunnerId = VimTmuxGetIdForPane()
@@ -158,6 +158,9 @@ function! VimTmuxStartRunner()
   if l:runnerMode == 'new'
     call VimTmuxOpenRunner()
     return 1
+  elseif l:runnerMode == 'nearest'
+    call VimTmuxNewRunnerWithNearestPane()
+    return 1
   else
     redraw
     echo 'Runner not defined'
@@ -165,3 +168,33 @@ function! VimTmuxStartRunner()
   endif
 endfunction
 
+function! VimTmuxNewRunnerWithNearestPane()
+  let l:splitOrientation = VimTmuxOptionRunnerOrientation()
+
+  if exists('g:VimTmuxRunnerNearestSelectionOrder')
+    let l:nearestDirectionOrder = g:VimTmuxRunnerNearestSelectionOrder
+  elseif l:splitOrientation == "v"
+    let l:nearestDirectionOrder = ['down-of', 'right-of']
+  else
+    let l:nearestDirectionOrder = ['right-of', 'down-of']
+  endif
+
+  for direction in l:nearestDirectionOrder
+    call VimTmuxCommand('select-pane -t {'.direction.'}')
+    if v:shell_error == 0
+      let g:VimTmuxRunnerId = VimTmuxGetIdForPane()
+      call VimTmuxCommand("last-pane")
+      return
+    endif
+  endfor
+
+  call VimTmuxOpenRunner()
+endfunction
+
+function! VimTmuxOptionRunnerOrientation()
+  return VimTmuxOption("g:VimTmuxRunnerOrientation", "v") == "h" ? "h" : "v"
+endfunction
+
+function! VimTmuxOptionRunnerSize()
+  return VimTmuxOption("g:VimTmuxRunnerSize", 20)
+endfunction
