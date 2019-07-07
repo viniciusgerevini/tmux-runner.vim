@@ -172,15 +172,7 @@ function! VimTmuxStartRunner()
 endfunction
 
 function! VimTmuxNewRunnerWithNearestPane()
-  let l:splitOrientation = VimTmuxOptionRunnerOrientation()
-
-  if exists('g:VimTmuxRunnerNearestSelectionOrder')
-    let l:nearestDirectionOrder = g:VimTmuxRunnerNearestSelectionOrder
-  elseif l:splitOrientation == "v"
-    let l:nearestDirectionOrder = ['down-of', 'right-of']
-  else
-    let l:nearestDirectionOrder = ['right-of', 'down-of']
-  endif
+  let l:nearestDirectionOrder = VimTmuxNearestSelectionOrder()
 
   for direction in l:nearestDirectionOrder
     call VimTmuxCommand('select-pane -t {'.direction.'}')
@@ -192,6 +184,14 @@ function! VimTmuxNewRunnerWithNearestPane()
   endfor
 
   call VimTmuxOpenRunner()
+endfunction
+
+function! VimTmuxNearestSelectionOrder()
+  if exists('g:VimTmuxRunnerNearestSelectionOrder')
+    return g:VimTmuxRunnerNearestSelectionOrder
+  endif
+
+  return VimTmuxOptionRunnerOrientation() == "v" ? ['down-of', 'right-of'] : ['right-of', 'down-of']
 endfunction
 
 function! VimTmuxOptionRunnerOrientation()
