@@ -315,5 +315,44 @@ set a different executable to be used instead of the default Tmux.
 ==============================================================================
 4. MAPPINGS                                                 *vimtmux-mappings*
 
+Here are some ideas for mappings:
+>
+  " Prompt command
+  map <Leader>vp :VimTmuxPromptCommand<CR>
+
+  " Open VimTmux prompt with current buffer name
+  map <Leader>vr :VimTmuxPromptCommand bufname("%")<CR>
+
+  " Run last command executed
+  map <Leader>vl :VimTmuxRunLastCommand<CR>
+
+  " Edit last command and rerun
+  map <Leader>ve :VimTmuxEditCommand<CR>
+
+  " Inspect runner pane
+  map <Leader>vi :VimTmuxInspectRunner<CR>
+
+  " Scroll down pane
+  map <Leader>vd :VimTmuxScrollDownRunner<CR>
+
+  " Scroll up pane
+  map <Leader>vu :VimTmuxScrollUpRunner<CR>
+
+  " Zoom the tmux runner pane
+  map <Leader>vz :VimTmuxZoomRunner<CR>
+
+  " Close pane
+  map <Leader>vq :VimTmuxCloseRunner<CR>
+
+  " Clear pane
+  map <Leader>vc :VimTmuxClearRunner<CR>
+
+  " Stop execution in pane
+  map <Leader>vx :VimTmuxStopRunner<CR>
+
+  " Set new pane as runner
+  map <leader>vs :VimTmuxPromptRunner<CR>
+<
+
 ===============================================================================
 vim:ft=help:et:ts=2:sw=2:sts=2:norl
