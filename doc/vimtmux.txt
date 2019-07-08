@@ -194,6 +194,114 @@ programs that are not shells.
 ==============================================================================
 3. OPTIONS                                                   *vimtmux-options*
 
+Overview:~
+
+  |g:VimTmuxRunnerSize|.....................Runner pane size
+  |g:VimTmuxRunnerOrientation|..............Runner pane split orientation
+  |g:VimTmuxNewRunnerMode|..................Define how new runners are chosen
+  |g:VimTmuxRunnerNearestSelectionOrder|....Custom order for 'nearest' mode
+  |g:VimTmuxExecutable|.....................Tmux executable to use
+
+-------------------------------------------------------------------------------
+Detailed descriptions and default values:~
+-------------------------------------------------------------------------------
+                                                        *'g:VimTmuxRunnerSize'*
+g:VimTmuxRunnerSize~
+
+Default: 20
+
+default size which new runner panes will start with. Sizes are in %, so 20
+means 20% of the current pane.
+
+>
+  let g:VimTmuxRunnerSize = 20
+<
+
+-------------------------------------------------------------------------------
+                                                 *'g:VimTmuxRunnerOrientation'*
+g:VimTmuxRunnerOrientation~
+
+Default: v
+
+orientation in which the pane will be split for new runner.
+h for horizontal, v for vertical.
+
+>
+  let g:VimTmuxRunnerOrientation = 'v'
+<
+
+-------------------------------------------------------------------------------
+                                                     *'g:VimTmuxNewRunnerMode'*
+g:VimTmuxNewRunnerMode~
+
+Default: new
+
+defines how new runners are chosen.
+
+Options:
+  - "new":     creates a new pane
+  - "nearest": chooses the nearest pane following the order defined by
+               |g:VimTmuxRunnerNearestSelectionOrder|
+  - "last":    chooses the last active pane
+  - "none":    shows the message 'Runner not defined'. Runner pane won't open
+               automatically. To set a runner use |VimTmuxSetRunner| or
+               |VimTmuxPromptRunner|
+
+Note: For nearest and last options, a new pane is created in case another one
+can't be found.
+
+>
+  let g:VimTmuxNewRunnerMode = 'new'
+<
+
+-------------------------------------------------------------------------------
+                                       *'g:VimTmuxRunnerNearestSelectionOrder'*
+g:VimTmuxRunnerNearestSelectionOrder~
+
+Default: ['down-of', 'right-of'] for vertical orientation,
+         ['right-of', 'down-of'] for horizontal orientation
+
+when |g:VimTmuxNewRunnerMode| is set as 'nearest', this list will be used to
+decide the order in which panes should be chosen.
+
+e.g if the list is ['down-of', 'right-of'], the pane below the active window
+has preference. In case there is no pane bellow, the right one will be used.
+
+Possible values are same as the ones used by the 'target' option in Tmux.
+
+Some values:
+   last                The last (previously active) pane
+   next                The next pane by number
+   previous            The previous pane by number
+   top                 The top pane
+   bottom              The bottom pane
+   left                The leftmost pane
+   right               The rightmost pane
+   top-left            The top-left pane
+   top-right           The top-right pane
+   bottom-left         The bottom-left pane
+   bottom-right        The bottom-right pane
+   up-of               The pane above the active pane
+   down-of             The pane below the active pane
+   left-of             The pane to the left of the active pane
+   right-of            The pane to the right of the active pane
+
+>
+  let g:VimTmuxRunnerNearestSelectionOrder = ['down-of', 'right-of']
+<
+
+-------------------------------------------------------------------------------
+                                                        *'g:VimTmuxExecutable'*
+g:VimTmuxExecutable~
+
+Default: tmux
+
+set a different executable to be used instead of the default Tmux.
+
+>
+  let g:VimTmuxExecutable = 'tmate'
+<
+
 ==============================================================================
 4. MAPPINGS                                                 *vimtmux-mappings*
 
