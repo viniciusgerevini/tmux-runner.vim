@@ -27,6 +27,7 @@ function! VimTmuxRunCommand(command, ...)
 
   let g:VimTmuxLastCommand = a:command
 
+  call VimTmuxSendKeys("q C-u")
   call VimTmuxSendText(a:command)
   call VimTmuxSendKeys("Enter")
 endfunction
