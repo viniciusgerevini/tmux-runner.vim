@@ -49,7 +49,9 @@ endfunction
 
 function! VimTmuxPromptRunner(...)
   let l:runner = input("Set new runner: ")
-  call VimTmuxSetRunner(l:runner)
+  if l:runner != ""
+    call VimTmuxSetRunner(l:runner)
+  endif
 endfunction
 
 function! VimTmuxSetRunner(...)
