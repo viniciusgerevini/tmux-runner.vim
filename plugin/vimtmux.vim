@@ -74,7 +74,7 @@ function! VimTmuxSendKeys(keys)
 endfunction
 
 function! s:VimTmuxCommand(arguments)
-  return system("tmux ".a:arguments)
+  return system(s:VimTmuxOptionTmuxCommand()." ".a:arguments)
 endfunction
 
 function! s:VimTmuxOption(option, default)
@@ -215,4 +215,8 @@ endfunction
 
 function! s:VimTmuxOptionRunnerSize()
   return s:VimTmuxOption("g:VimTmuxRunnerSize", 20)
+endfunction
+
+function! s:VimTmuxOptionTmuxCommand()
+  return s:VimTmuxOption("g:VimTmuxExecutable", "tmux")
 endfunction
