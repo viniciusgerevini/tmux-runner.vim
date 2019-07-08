@@ -7,6 +7,7 @@ let g:loaded_vimtmux = 1
 command -nargs=* VimTmuxRunCommand :call VimTmuxRunCommand(<args>)
 command -nargs=? VimTmuxPromptCommand :call VimTmuxPromptCommand(<args>)
 command VimTmuxRunLastCommand :call VimTmuxRunLastCommand()
+command VimTmuxEditCommand :call VimTmuxEditCommand()
 command -nargs=? VimTmuxSetRunner :call VimTmuxSetRunner(<args>)
 command -nargs=? VimTmuxPromptRunner :call VimTmuxPromptRunner(<args>)
 command VimTmuxOpenRunner :call VimTmuxOpenRunner()
@@ -45,6 +46,14 @@ function! VimTmuxRunLastCommand()
     call VimTmuxRunCommand(g:VimTmuxLastCommand)
   else
     echo "No command to run"
+  endif
+endfunction
+
+function! VimTmuxEditCommand()
+  if exists("g:VimTmuxLastCommand")
+    call VimTmuxPromptCommand(g:VimTmuxLastCommand)
+  else
+    call VimTmuxPromptCommand()
   endif
 endfunction
 

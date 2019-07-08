@@ -34,6 +34,7 @@ Overview:~
   |VimTmuxRunCommand|...........Run command in a Tmux pane
   |VimTmuxPromptCommand|........Show input for typing command
   |VimTmuxRunLastCommand|.......Run last command executed
+  |VimTmuxEditCommand|..........Edit last command and execute it
   |VimTmuxSetRunner|............Set pane as runner by index, id or name
   |VimTmuxPromptRunner|.........Show input for setting new runner
   |VimTmuxOpenRunner|...........Open new runner
@@ -76,6 +77,15 @@ VimTmuxRunLastCommand~
 
 Executes last command sent.
 
+-------------------------------------------------------------------------------
+                                                           *VimTmuxEditCommand*
+VimTmuxEditCommand~
+
+Prompt last command to be edited and execute it.
+
+Example: >
+  :VimTmuxEditCommand
+<
 -------------------------------------------------------------------------------
                                                              *VimTmuxSetRunner*
 VimTmuxSetRunner~
