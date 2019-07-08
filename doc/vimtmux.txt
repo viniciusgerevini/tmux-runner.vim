@@ -16,7 +16,7 @@ CONTENTS                                                    *vimtmux-contents*
 1. INTRODUCTION                                                *vimtmux-intro*
 
 This plugin allows you to interact with Tmux without leaving Vim.
-It was inspired by Vimux (used as reference), which has similar features, but
+It was inspired by Vimux [1] (used as reference), which has similar features, but
 hasn't been accepting updates for a while.
 
 Some of VimTmux main improvements are:
@@ -25,6 +25,8 @@ Some of VimTmux main improvements are:
 - You can choose your runner manually by providing its id, name or index
 - Changing layouts and creating new panes do not affect the current runner
 - Many options for autoselecting panes as runner: last active, nearest, new
+
+[1] https://github.com/benmills/vimux
 
 ==============================================================================
 2. COMMANDS                                                 *vimtmux-commands*
