@@ -19,8 +19,8 @@ command VimTmuxScrollUpRunner :call VimTmuxScrollUpRunner()
 command VimTmuxScrollDownRunner :call VimTmuxScrollDownRunner()
 
 function! VimTmuxRunCommand(command, ...)
-  if VimTmuxDoesPaneExist() == 0
-    if VimTmuxStartRunner() == 0
+  if s:VimTmuxDoesPaneExist() == 0
+    if s:VimTmuxStartRunner() == 0
       return
     endif
   endif
@@ -56,7 +56,7 @@ endfunction
 
 function! VimTmuxSetRunner(...)
   if exists("a:1")
-    let l:newRunner = VimTmuxGetIdForPane(string(a:1))
+    let l:newRunner = s:VimTmuxGetIdForPane(string(a:1))
     if v:shell_error == 0
       let g:VimTmuxRunnerId = l:newRunner
     else
@@ -70,45 +70,45 @@ function! VimTmuxSendText(text)
 endfunction
 
 function! VimTmuxSendKeys(keys)
-  call VimTmuxCommand("send-keys -t ".g:VimTmuxRunnerId." ".a:keys)
+  call s:VimTmuxCommand("send-keys -t ".g:VimTmuxRunnerId." ".a:keys)
 endfunction
 
-function! VimTmuxCommand(arguments)
+function! s:VimTmuxCommand(arguments)
   return system("tmux ".a:arguments)
 endfunction
 
-function! VimTmuxOption(option, default)
+function! s:VimTmuxOption(option, default)
   return exists(a:option) ? eval(a:option) : a:default
 endfunction
 
-function! VimTmuxGetIdForPane(...)
+function! s:VimTmuxGetIdForPane(...)
   let l:target = exists("a:1") ? ' -t '.a:1 : ''
 
-  return substitute(VimTmuxCommand('display -p '.l:target.' "#{session_id}:#{window_id}.#{pane_id}"'), '\n$', '', '')
+  return substitute(s:VimTmuxCommand('display -p '.l:target.' "#{session_id}:#{window_id}.#{pane_id}"'), '\n$', '', '')
 endfunction
 
-function! VimTmuxDoesPaneExist()
+function! s:VimTmuxDoesPaneExist()
   if !exists("g:VimTmuxRunnerId") || g:VimTmuxRunnerId == ""
     return 0
   endif
 
-  call VimTmuxCommand('has -t '.g:VimTmuxRunnerId)
+  call s:VimTmuxCommand('has -t '.g:VimTmuxRunnerId)
 
   return v:shell_error == 0
 endfunction
 
 function! VimTmuxOpenRunner()
-  let l:orientation = VimTmuxOptionRunnerOrientation()
-  let l:size = VimTmuxOptionRunnerSize()
+  let l:orientation = s:VimTmuxOptionRunnerOrientation()
+  let l:size = s:VimTmuxOptionRunnerSize()
 
-  call VimTmuxCommand("split-window -p ".l:size." -".l:orientation)
-  let g:VimTmuxRunnerId = VimTmuxGetIdForPane()
-  call VimTmuxCommand("last-pane")
+  call s:VimTmuxCommand("split-window -p ".l:size." -".l:orientation)
+  let g:VimTmuxRunnerId = s:VimTmuxGetIdForPane()
+  call s:VimTmuxCommand("last-pane")
 endfunction
 
 function! VimTmuxCloseRunner()
-  if VimTmuxDoesPaneExist() == 1
-    call VimTmuxCommand("kill-pane -t ".g:VimTmuxRunnerId)
+  if s:VimTmuxDoesPaneExist() == 1
+    call s:VimTmuxCommand("kill-pane -t ".g:VimTmuxRunnerId)
     unlet g:VimTmuxRunnerId
   endif
 endfunction
@@ -118,53 +118,53 @@ function! VimTmuxStopRunner()
 endfunction
 
 function! VimTmuxZoomRunner()
-  if VimTmuxDoesPaneExist() == 1
-    call VimTmuxCommand("resize-pane -Z -t ".g:VimTmuxRunnerId)
+  if s:VimTmuxDoesPaneExist() == 1
+    call s:VimTmuxCommand("resize-pane -Z -t ".g:VimTmuxRunnerId)
   endif
 endfunction
 
 function! VimTmuxClearRunner()
-  if VimTmuxDoesPaneExist() == 1
+  if s:VimTmuxDoesPaneExist() == 1
     call VimTmuxSendText("clear")
     call VimTmuxSendKeys("Enter")
-    call VimTmuxCommand("clear-history -t ".g:VimTmuxRunnerId)
+    call s:VimTmuxCommand("clear-history -t ".g:VimTmuxRunnerId)
   endif
 endfunction
 
 function! VimTmuxInspectRunner()
-  if VimTmuxDoesPaneExist() == 1
-    call VimTmuxCommand("select-pane -t ".g:VimTmuxRunnerId)
-    call VimTmuxCommand("copy-mode")
+  if s:VimTmuxDoesPaneExist() == 1
+    call s:VimTmuxCommand("select-pane -t ".g:VimTmuxRunnerId)
+    call s:VimTmuxCommand("copy-mode")
   endif
 endfunction
 
 function! VimTmuxScrollUpRunner()
-  if VimTmuxDoesPaneExist() == 1
+  if s:VimTmuxDoesPaneExist() == 1
     call VimTmuxInspectRunner()
     call VimTmuxSendKeys("C-u")
-    call VimTmuxCommand("last-pane")
+    call s:VimTmuxCommand("last-pane")
   endif
 endfunction
 
 function! VimTmuxScrollDownRunner()
-  if VimTmuxDoesPaneExist() == 1
+  if s:VimTmuxDoesPaneExist() == 1
     call VimTmuxInspectRunner()
     call VimTmuxSendKeys("C-d")
-    call VimTmuxCommand("last-pane")
+    call s:VimTmuxCommand("last-pane")
   endif
 endfunction
 
-function! VimTmuxStartRunner()
+function! s:VimTmuxStartRunner()
   let l:runnerMode = exists("g:VimTmuxNewRunnerMode") ? g:VimTmuxNewRunnerMode : "new"
 
   if l:runnerMode == 'new'
     call VimTmuxOpenRunner()
     return 1
   elseif l:runnerMode == 'nearest'
-    call VimTmuxNewRunnerWithNearestPane()
+    call s:VimTmuxNewRunnerWithNearestPane()
     return 1
   elseif l:runnerMode == 'last'
-    call VimTmuxNewRunnerLastActivePane()
+    call s:VimTmuxNewRunnerLastActivePane()
     return 1
   else
     redraw
@@ -173,14 +173,14 @@ function! VimTmuxStartRunner()
   endif
 endfunction
 
-function! VimTmuxNewRunnerWithNearestPane()
-  let l:nearestDirectionOrder = VimTmuxNearestSelectionOrder()
+function! s:VimTmuxNewRunnerWithNearestPane()
+  let l:nearestDirectionOrder = s:VimTmuxNearestSelectionOrder()
 
   for direction in l:nearestDirectionOrder
-    call VimTmuxCommand('select-pane -t {'.direction.'}')
+    call s:VimTmuxCommand('select-pane -t {'.direction.'}')
     if v:shell_error == 0
-      let g:VimTmuxRunnerId = VimTmuxGetIdForPane()
-      call VimTmuxCommand("last-pane")
+      let g:VimTmuxRunnerId = s:VimTmuxGetIdForPane()
+      call s:VimTmuxCommand("last-pane")
       return
     endif
   endfor
@@ -188,23 +188,23 @@ function! VimTmuxNewRunnerWithNearestPane()
   call VimTmuxOpenRunner()
 endfunction
 
-function! VimTmuxNearestSelectionOrder()
+function! s:VimTmuxNearestSelectionOrder()
   if exists('g:VimTmuxRunnerNearestSelectionOrder')
     return g:VimTmuxRunnerNearestSelectionOrder
   endif
 
-  return VimTmuxOptionRunnerOrientation() == "v" ? ['down-of', 'right-of'] : ['right-of', 'down-of']
+  return s:VimTmuxOptionRunnerOrientation() == "v" ? ['down-of', 'right-of'] : ['right-of', 'down-of']
 endfunction
 
-function! VimTmuxOptionRunnerOrientation()
-  return VimTmuxOption("g:VimTmuxRunnerOrientation", "v") == "h" ? "h" : "v"
+function! s:VimTmuxOptionRunnerOrientation()
+  return s:VimTmuxOption("g:VimTmuxRunnerOrientation", "v") == "h" ? "h" : "v"
 endfunction
 
-function! VimTmuxNewRunnerLastActivePane()
-  let l:currentPaneId = VimTmuxGetIdForPane()
-  call VimTmuxCommand("last-pane")
-  let l:lastActivePaneId = VimTmuxGetIdForPane()
-  call VimTmuxCommand("last-pane")
+function! s:VimTmuxNewRunnerLastActivePane()
+  let l:currentPaneId = s:VimTmuxGetIdForPane()
+  call s:VimTmuxCommand("last-pane")
+  let l:lastActivePaneId = s:VimTmuxGetIdForPane()
+  call s:VimTmuxCommand("last-pane")
 
   if l:currentPaneId == l:lastActivePaneId
     call VimTmuxOpenRunner()
@@ -213,6 +213,6 @@ function! VimTmuxNewRunnerLastActivePane()
   endif
 endfunction
 
-function! VimTmuxOptionRunnerSize()
-  return VimTmuxOption("g:VimTmuxRunnerSize", 20)
+function! s:VimTmuxOptionRunnerSize()
+  return s:VimTmuxOption("g:VimTmuxRunnerSize", 20)
 endfunction
