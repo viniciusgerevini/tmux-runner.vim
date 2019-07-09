@@ -80,7 +80,7 @@ function! TmuxRunnerSendText(text)
 endfunction
 
 function! TmuxRunnerSendKeys(keys)
-  call s:TmuxRunnerCommand("send-keys -t ".g:TmuxRunnerId." ".a:keys)
+  call s:TmuxRunnerCommand("send-keys -t '".g:TmuxRunnerId."' ".a:keys)
 endfunction
 
 function! s:TmuxRunnerCommand(arguments)
@@ -92,7 +92,7 @@ function! s:TmuxRunnerOption(option, default)
 endfunction
 
 function! s:TmuxRunnerGetIdForPane(...)
-  let l:target = exists("a:1") ? ' -t '.a:1 : ''
+  let l:target = exists("a:1") ? " -t '".a:1. "'" : ""
 
   return substitute(s:TmuxRunnerCommand('display -p '.l:target.' "#{session_id}:#{window_id}.#{pane_id}"'), '\n$', '', '')
 endfunction
@@ -102,7 +102,7 @@ function! s:TmuxRunnerDoesPaneExist()
     return 0
   endif
 
-  call s:TmuxRunnerCommand('has -t '.g:TmuxRunnerId)
+  call s:TmuxRunnerCommand("has -t '".g:TmuxRunnerId."'")
 
   return v:shell_error == 0
 endfunction
@@ -118,7 +118,7 @@ endfunction
 
 function! TmuxRunnerClose()
   if s:TmuxRunnerDoesPaneExist() == 1
-    call s:TmuxRunnerCommand("kill-pane -t ".g:TmuxRunnerId)
+    call s:TmuxRunnerCommand("kill-pane -t '".g:TmuxRunnerId."'")
     unlet g:TmuxRunnerId
   endif
 endfunction
@@ -129,7 +129,7 @@ endfunction
 
 function! TmuxRunnerZoom()
   if s:TmuxRunnerDoesPaneExist() == 1
-    call s:TmuxRunnerCommand("resize-pane -Z -t ".g:TmuxRunnerId)
+    call s:TmuxRunnerCommand("resize-pane -Z -t '".g:TmuxRunnerId."'")
   endif
 endfunction
 
@@ -137,13 +137,13 @@ function! TmuxRunnerClear()
   if s:TmuxRunnerDoesPaneExist() == 1
     call TmuxRunnerSendText("clear")
     call TmuxRunnerSendKeys("Enter")
-    call s:TmuxRunnerCommand("clear-history -t ".g:TmuxRunnerId)
+    call s:TmuxRunnerCommand("clear-history -t '".g:TmuxRunnerId."'")
   endif
 endfunction
 
 function! TmuxRunnerInspect()
   if s:TmuxRunnerDoesPaneExist() == 1
-    call s:TmuxRunnerCommand("select-pane -t ".g:TmuxRunnerId)
+    call s:TmuxRunnerCommand("select-pane -t '".g:TmuxRunnerId."'")
     call s:TmuxRunnerCommand("copy-mode")
   endif
 endfunction
