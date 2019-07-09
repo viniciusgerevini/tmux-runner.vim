@@ -1,25 +1,25 @@
-*vimtmux.txt*  Plugin for interacting with Tmux
+*tmux-runner.txt*  Plugin for interacting with Tmux
 
 Version: 1.0.0
 Author:  Vinicius Gerevini <https://thisisvini.com/>
 License: MIT license
 
 ==============================================================================
-CONTENTS                                                    *vimtmux-contents*
+CONTENTS                                                    *tmux-runner-contents*
 
-    1. Introduction.................................|vimtmux-intro|
-    2. Commands.....................................|vimtmux-commands|
-    3. Options......................................|vimtmux-options|
-    4. Mappings.....................................|vimtmux-mappings|
+    1. Introduction.................................|tmux-runner-intro|
+    2. Commands.....................................|tmux-runner-commands|
+    3. Options......................................|tmux-runner-options|
+    4. Mappings.....................................|tmux-runner-mappings|
 
 ==============================================================================
-1. INTRODUCTION                                                *vimtmux-intro*
+1. INTRODUCTION                                                *tmux-runner-intro*
 
 This plugin allows you to interact with Tmux without leaving Vim.
 It was inspired by Vimux [1] (used as reference), which has similar features, but
 hasn't been accepting updates for a while.
 
-Some of VimTmux main improvements are:
+Some of TmuxRunner main improvements are:
 
 - Command prompt has command line completion
 - You can choose your runner manually by providing its id, name or index
@@ -29,68 +29,68 @@ Some of VimTmux main improvements are:
 [1] https://github.com/benmills/vimux
 
 ==============================================================================
-2. COMMANDS                                                 *vimtmux-commands*
+2. COMMANDS                                                 *tmux-runner-commands*
 
 Overview:~
 
-  |VimTmuxRunCommand|...........Run command in a Tmux pane
-  |VimTmuxPromptCommand|........Show input for typing command
-  |VimTmuxRunLastCommand|.......Run last command executed
-  |VimTmuxEditCommand|..........Edit last command and execute it
-  |VimTmuxSetRunner|............Set pane as runner by index, id or name
-  |VimTmuxPromptRunner|.........Show input for setting new runner
-  |VimTmuxOpenRunner|...........Open new runner
-  |VimTmuxCloseRunner|..........Close current runner
-  |VimTmuxStopRunner|...........Send stop signal to runner
-  |VimTmuxZoomRunner|...........Zoom runner
-  |VimTmuxClearRunner|..........Clean runner content and history
-  |VimTmuxInspectRunner|........Focus runner in copy-mode
-  |VimTmuxScrollUpRunner|.......Scroll up runner without leaving VIM
-  |VimTmuxScrollDownRunner|.....Scroll down runner without leaving VIM
-  |VimTmuxSendKeys|.............Send keys to the runner pane
-  |VimTmuxSendText|.............Send raw text to the runner pane
+  |TmuxRunnerRunCommand|...........Run command in a Tmux pane
+  |TmuxRunnerPromptCommand|........Show input for typing command
+  |TmuxRunnerRunLastCommand|.......Run last command executed
+  |TmuxRunnerEditCommand|..........Edit last command and execute it
+  |TmuxRunnerSetRunner|............Set pane as runner by index, id or name
+  |TmuxRunnerPromptRunner|.........Show input for setting new runner
+  |TmuxRunnerOpenRunner|...........Open new runner
+  |TmuxRunnerCloseRunner|..........Close current runner
+  |TmuxRunnerStopRunner|...........Send stop signal to runner
+  |TmuxRunnerZoomRunner|...........Zoom runner
+  |TmuxRunnerClearRunner|..........Clean runner content and history
+  |TmuxRunnerInspectRunner|........Focus runner in copy-mode
+  |TmuxRunnerScrollUpRunner|.......Scroll up runner without leaving VIM
+  |TmuxRunnerScrollDownRunner|.....Scroll down runner without leaving VIM
+  |TmuxRunnerSendKeys|.............Send keys to the runner pane
+  |TmuxRunnerSendText|.............Send raw text to the runner pane
 
 -------------------------------------------------------------------------------
 Detailed descriptions and examples:~
 -------------------------------------------------------------------------------
-                                                            *VimTmuxRunCommand*
-VimTmuxRunCommand~
+                                                            *TmuxRunnerRunCommand*
+TmuxRunnerRunCommand~
 
 Run command in a Tmux pane.
 
 Example: >
-  :VimTmuxRunCommand "ls -l"
+  :TmuxRunnerRunCommand "ls -l"
 <
 -------------------------------------------------------------------------------
-                                                         *VimTmuxPromptCommand*
-VimTmuxPromptCommand~
+                                                         *TmuxRunnerPromptCommand*
+TmuxRunnerPromptCommand~
 
 Prompt for a command with command line completion support. A parameter can be
 supplied to predefine a command or a part of the command which can be edited
 in the prompt.
 
 Example: >
-  :VimTmuxPromptCommand
-  :VimTmuxPromptCommand "echo "
+  :TmuxRunnerPromptCommand
+  :TmuxRunnerPromptCommand "echo "
 <
 -------------------------------------------------------------------------------
-                                                        *VimTmuxRunLastCommand*
-VimTmuxRunLastCommand~
+                                                        *TmuxRunnerRunLastCommand*
+TmuxRunnerRunLastCommand~
 
 Executes last command sent.
 
 -------------------------------------------------------------------------------
-                                                           *VimTmuxEditCommand*
-VimTmuxEditCommand~
+                                                           *TmuxRunnerEditCommand*
+TmuxRunnerEditCommand~
 
 Prompt last command to be edited and execute it.
 
 Example: >
-  :VimTmuxEditCommand
+  :TmuxRunnerEditCommand
 <
 -------------------------------------------------------------------------------
-                                                             *VimTmuxSetRunner*
-VimTmuxSetRunner~
+                                                             *TmuxRunnerSetRunner*
+TmuxRunnerSetRunner~
 
 Set a runner by its id, index or name.
 Note: The same format used for targets in Tmux is used here.
@@ -99,126 +99,126 @@ e.g session_id:window_id.pane_id or session_index:window_index.pane_index
 Example: >
   " ** Set by index/number **
   " pane number 3 in current window
-  :VimTmuxSetRunner 3
+  :TmuxRunnerSetRunner 3
 
   " pane number 3 in window number 1 (current session)
-  :VimTmuxSetRunner 1.3
+  :TmuxRunnerSetRunner 1.3
 
   " pane number 3 in window number 1 in session number 4
-  :VimTmuxSetRunner 4:1.3
+  :TmuxRunnerSetRunner 4:1.3
 
   " ** By id **
   " pane id %23 
-  :VimTmuxSetRunner %23
+  :TmuxRunnerSetRunner %23
 
   " window id @2 
-  :VimTmuxSetRunner @2
+  :TmuxRunnerSetRunner @2
 
   " pane %23 in window @2
-  :VimTmuxSetRunner @2.%23
+  :TmuxRunnerSetRunner @2.%23
 
   " Session id $3
-  :VimTmuxSetRunner $3
+  :TmuxRunnerSetRunner $3
 
   " By session name
-  :VimTmuxSetRunner my_cool_session
+  :TmuxRunnerSetRunner my_cool_session
 <
 
 Note: when setting runner by window or session id / name, the last active pane
 in that session/window will be selected as runner.
 
 -------------------------------------------------------------------------------
-                                                          *VimTmuxPromptRunner*
-VimTmuxPromptRunner~
+                                                          *TmuxRunnerPromptRunner*
+TmuxRunnerPromptRunner~
 
 Prompt for a number/id to be used as runner. Possible inputs are the same as
-the ones shown in |VimTmuxSetRunner|.
+the ones shown in |TmuxRunnerSetRunner|.
 
 -------------------------------------------------------------------------------
-                                                            *VimTmuxOpenRunner*
-VimTmuxOpenRunner~
+                                                            *TmuxRunnerOpenRunner*
+TmuxRunnerOpenRunner~
 
 Open a new pane to be used as runner. You can change the default orientation
-and size by using the options |g:VimTmuxRunnerOrientation| and
-|g:VimTmuxRunnerSize|.
+and size by using the options |g:TmuxRunnerOrientation| and
+|g:TmuxRunnerSize|.
 
 -------------------------------------------------------------------------------
-                                                           *VimTmuxCloseRunner*
-VimTmuxCloseRunner~
+                                                           *TmuxRunnerCloseRunner*
+TmuxRunnerCloseRunner~
 
 Close current runner.
 
 -------------------------------------------------------------------------------
-                                                            *VimTmuxStopRunner*
-VimTmuxStopRunner~
+                                                            *TmuxRunnerStopRunner*
+TmuxRunnerStopRunner~
 
 Stops commands executing in the runner pane.
 
 -------------------------------------------------------------------------------
-                                                            *VimTmuxZoomRunner*
-VimTmuxZoomRunner~
+                                                            *TmuxRunnerZoomRunner*
+TmuxRunnerZoomRunner~
 
 Zoom the runner pane. Once zoomed, you need to use Tmux zoom command to restore
 it back.
 
 -------------------------------------------------------------------------------
-                                                           *VimTmuxClearRunner*
-VimTmuxClearRunner~
+                                                           *TmuxRunnerClearRunner*
+TmuxRunnerClearRunner~
 
 Clear current content and history in the runner pane.
 
 -------------------------------------------------------------------------------
-                                                         *VimTmuxInspectRunner*
-VimTmuxInspectRunner~
+                                                         *TmuxRunnerInspectRunner*
+TmuxRunnerInspectRunner~
 
 Move into the runner pane and enter copy-mode (scroll).
 
 -------------------------------------------------------------------------------
-                                                        *VimTmuxScrollUpRunner*
-VimTmuxScrollUpRunner~
+                                                        *TmuxRunnerScrollUpRunner*
+TmuxRunnerScrollUpRunner~
 
 Scroll runner pane half screen up without leaving VIM.
 
 -------------------------------------------------------------------------------
-                                                      *VimTmuxScrollDownRunner*
-VimTmuxScrollDownRunner~
+                                                      *TmuxRunnerScrollDownRunner*
+TmuxRunnerScrollDownRunner~
 
 Scroll runner pane half screen down without leaving VIM.
 
 -------------------------------------------------------------------------------
-                                                              *VimTmuxSendKeys*
-VimTmuxSendKeys~
+                                                              *TmuxRunnerSendKeys*
+TmuxRunnerSendKeys~
 
 Send keys to the runner pane. This command will not open a new pane if one
-does not already exist. You will need to use |VimTmuxOpenRunner| to do this.
+does not already exist. You will need to use |TmuxRunnerOpenRunner| to do this.
 You can use this command to send keys such as "Enter" or "C-c" to the runner
 pane.
 
 -------------------------------------------------------------------------------
-                                                              *VimTmuxSendText*
-VimTmuxSendText~
+                                                              *TmuxRunnerSendText*
+TmuxRunnerSendText~
 
 Send raw text to the runner pane. This command will not open a new pane if one
-does not already exist. You will need to use |VimTmuxOpenRunner| to do this.
+does not already exist. You will need to use |TmuxRunnerOpenRunner| to do this.
 This command can be used to interact with REPLs or other interactive terminal
 programs that are not shells.
 
 ==============================================================================
-3. OPTIONS                                                   *vimtmux-options*
+3. OPTIONS                                                   *tmux-runner-options*
 
 Overview:~
 
-  |g:VimTmuxRunnerSize|.....................Runner pane size
-  |g:VimTmuxRunnerOrientation|..............Runner pane split orientation
-  |g:VimTmuxNewRunnerMode|..................Define how new runners are chosen
-  |g:VimTmuxRunnerNearestSelectionOrder|....Custom order for 'nearest' mode
-  |g:VimTmuxExecutable|.....................Tmux executable to use
+  |g:TmuxRunnerSize|.....................Runner pane size
+  |g:TmuxRunnerOrientation|..............Runner pane split orientation
+  |g:TmuxRunnerNewRunnerMode|..................Define how new runners are chosen
+  |g:TmuxRunnerNearestSelectionOrder|....Custom order for 'nearest' mode
+  |g:TmuxRunnerExecutable|.....................Tmux executable to use
 
 -------------------------------------------------------------------------------
 Detailed descriptions and default values:~
 -------------------------------------------------------------------------------
-                                                        *'g:VimTmuxRunnerSize'*
-g:VimTmuxRunnerSize~
+                                                        *'g:TmuxRunnerSize'*
+g:TmuxRunnerSize~
 
 Default: 20
 
@@ -226,12 +226,12 @@ default size which new runner panes will start with. Sizes are in %, so 20
 means 20% of the current pane.
 
 >
-  let g:VimTmuxRunnerSize = 20
+  let g:TmuxRunnerSize = 20
 <
 
 -------------------------------------------------------------------------------
-                                                 *'g:VimTmuxRunnerOrientation'*
-g:VimTmuxRunnerOrientation~
+                                                 *'g:TmuxRunnerOrientation'*
+g:TmuxRunnerOrientation~
 
 Default: v
 
@@ -239,12 +239,12 @@ orientation in which the pane will be split for new runner.
 h for horizontal, v for vertical.
 
 >
-  let g:VimTmuxRunnerOrientation = 'v'
+  let g:TmuxRunnerOrientation = 'v'
 <
 
 -------------------------------------------------------------------------------
-                                                     *'g:VimTmuxNewRunnerMode'*
-g:VimTmuxNewRunnerMode~
+                                                     *'g:TmuxRunnerNewRunnerMode'*
+g:TmuxRunnerNewRunnerMode~
 
 Default: new
 
@@ -253,27 +253,27 @@ defines how new runners are chosen.
 Options:
   - "new":     creates a new pane
   - "nearest": chooses the nearest pane following the order defined by
-               |g:VimTmuxRunnerNearestSelectionOrder|
+               |g:TmuxRunnerNearestSelectionOrder|
   - "last":    chooses the last active pane
   - "none":    shows the message 'Runner not defined'. Runner pane won't open
-               automatically. To set a runner use |VimTmuxSetRunner| or
-               |VimTmuxPromptRunner|
+               automatically. To set a runner use |TmuxRunnerSetRunner| or
+               |TmuxRunnerPromptRunner|
 
 Note: For nearest and last options, a new pane is created in case another one
 can't be found.
 
 >
-  let g:VimTmuxNewRunnerMode = 'new'
+  let g:TmuxRunnerNewRunnerMode = 'new'
 <
 
 -------------------------------------------------------------------------------
-                                       *'g:VimTmuxRunnerNearestSelectionOrder'*
-g:VimTmuxRunnerNearestSelectionOrder~
+                                       *'g:TmuxRunnerNearestSelectionOrder'*
+g:TmuxRunnerNearestSelectionOrder~
 
 Default: ['down-of', 'right-of'] for vertical orientation,
          ['right-of', 'down-of'] for horizontal orientation
 
-when |g:VimTmuxNewRunnerMode| is set as 'nearest', this list will be used to
+when |g:TmuxRunnerNewRunnerMode| is set as 'nearest', this list will be used to
 decide the order in which panes should be chosen.
 
 e.g if the list is ['down-of', 'right-of'], the pane below the active window
@@ -299,61 +299,61 @@ Some values:
    right-of            The pane to the right of the active pane
 
 >
-  let g:VimTmuxRunnerNearestSelectionOrder = ['down-of', 'right-of']
+  let g:TmuxRunnerNearestSelectionOrder = ['down-of', 'right-of']
 <
 
 -------------------------------------------------------------------------------
-                                                        *'g:VimTmuxExecutable'*
-g:VimTmuxExecutable~
+                                                        *'g:TmuxRunnerExecutable'*
+g:TmuxRunnerExecutable~
 
 Default: tmux
 
 set a different executable to be used instead of the default Tmux.
 
 >
-  let g:VimTmuxExecutable = 'tmate'
+  let g:TmuxRunnerExecutable = 'tmate'
 <
 
 ==============================================================================
-4. MAPPINGS                                                 *vimtmux-mappings*
+4. MAPPINGS                                                 *tmux-runner-mappings*
 
 Here are some ideas for mappings:
 >
   " Prompt command
-  map <Leader>vp :VimTmuxPromptCommand<CR>
+  map <Leader>vp :TmuxRunnerPromptCommand<CR>
 
-  " Open VimTmux prompt with current buffer name
-  map <Leader>vr :VimTmuxPromptCommand bufname("%")<CR>
+  " Open TmuxRunner prompt with current buffer name
+  map <Leader>vr :TmuxRunnerPromptCommand bufname("%")<CR>
 
   " Run last command executed
-  map <Leader>vl :VimTmuxRunLastCommand<CR>
+  map <Leader>vl :TmuxRunnerRunLastCommand<CR>
 
   " Edit last command and rerun
-  map <Leader>ve :VimTmuxEditCommand<CR>
+  map <Leader>ve :TmuxRunnerEditCommand<CR>
 
   " Inspect runner pane
-  map <Leader>vi :VimTmuxInspectRunner<CR>
+  map <Leader>vi :TmuxRunnerInspectRunner<CR>
 
   " Scroll down pane
-  map <Leader>vd :VimTmuxScrollDownRunner<CR>
+  map <Leader>vd :TmuxRunnerScrollDownRunner<CR>
 
   " Scroll up pane
-  map <Leader>vu :VimTmuxScrollUpRunner<CR>
+  map <Leader>vu :TmuxRunnerScrollUpRunner<CR>
 
   " Zoom the tmux runner pane
-  map <Leader>vz :VimTmuxZoomRunner<CR>
+  map <Leader>vz :TmuxRunnerZoomRunner<CR>
 
   " Close pane
-  map <Leader>vq :VimTmuxCloseRunner<CR>
+  map <Leader>vq :TmuxRunnerCloseRunner<CR>
 
   " Clear pane
-  map <Leader>vc :VimTmuxClearRunner<CR>
+  map <Leader>vc :TmuxRunnerClearRunner<CR>
 
   " Stop execution in pane
-  map <Leader>vx :VimTmuxStopRunner<CR>
+  map <Leader>vx :TmuxRunnerStopRunner<CR>
 
   " Set new pane as runner
-  map <leader>vs :VimTmuxPromptRunner<CR>
+  map <leader>vs :TmuxRunnerPromptRunner<CR>
 <
 
 ===============================================================================

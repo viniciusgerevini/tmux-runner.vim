@@ -1,9 +1,9 @@
-# VimTmux
+# TmuxRunner.vim
 
 This plugin allows you to interact with Tmux without leaving Vim.
 It was inspired by [Vimux](https://github.com/benmills/vimux) (used as reference), which has similar features, but hasn't been accepting updates for a while.
 
-Some of VimTmux main improvements are:
+Some of TmuxRunner main improvements are:
 
 - Command prompt has command line completion
 - You can choose your runner manually by providing its id, name or index
@@ -12,73 +12,73 @@ Some of VimTmux main improvements are:
 
 # Installation
 
-[VimPlug](https://github.com/junegunn/vim-plug): `Plug 'viniciusgerevini/vimtmux'`
+[VimPlug](https://github.com/junegunn/vim-plug): `Plug 'viniciusgerevini/tmux-runner'`
 
-[Vundle](https://github.com/VundleVim/Vundle.vim): `Plugin 'viniciusgerevini/vimtmux'`
+[Vundle](https://github.com/VundleVim/Vundle.vim): `Plugin 'viniciusgerevini/tmux-runner'`
 
-[Pathogen](https://github.com/tpope/vim-pathogen) `cd ~/.vim/bundle && git clone https://github.com/viniciusgerevini/vimtmux`
+[Pathogen](https://github.com/tpope/vim-pathogen) `cd ~/.vim/bundle && git clone https://github.com/viniciusgerevini/tmux-runner`
 
-Manual Instalation: copy `./plugin/vimtmux.vim` to your plugins folder.
+Manual Instalation: copy `./plugin/tmux-runner` to your plugins folder.
 
 # Usage
 
 *Mappings example:*
 ```
 " Prompt command
-map <Leader>vp :VimTmuxPromptCommand<CR>
+map <Leader>vp :TmuxRunnerPromptCommand<CR>
 
-" Open VimTmux prompt with current buffer name
-map <Leader>vr :VimTmuxPromptCommand bufname("%")<CR>
+" Open TmuxRunner prompt with current buffer name
+map <Leader>vr :TmuxRunnerPromptCommand bufname("%")<CR>
 
 " Run last command executed
-map <Leader>vl :VimTmuxRunLastCommand<CR>
+map <Leader>vl :TmuxRunnerRunLastCommand<CR>
 
 " Edit last command and rerun
-map <Leader>ve :VimTmuxEditCommand<CR>
+map <Leader>ve :TmuxRunnerEditCommand<CR>
 
 " Inspect runner pane
-map <Leader>vi :VimTmuxInspectRunner<CR>
+map <Leader>vi :TmuxRunnerInspectRunner<CR>
 
 " Scroll down pane
-map <Leader>vd :VimTmuxScrollDownRunner<CR>
+map <Leader>vd :TmuxRunnerScrollDownRunner<CR>
 
 " Scroll up pane
-map <Leader>vu :VimTmuxScrollUpRunner<CR>
+map <Leader>vu :TmuxRunnerScrollUpRunner<CR>
 
 " Zoom the tmux runner pane
-map <Leader>vz :VimTmuxZoomRunner<CR>
+map <Leader>vz :TmuxRunnerZoomRunner<CR>
 
 " Close pane
-map <Leader>vq :VimTmuxCloseRunner<CR>
+map <Leader>vq :TmuxRunnerCloseRunner<CR>
 
 " Clear pane
-map <Leader>vc :VimTmuxClearRunner<CR>
+map <Leader>vc :TmuxRunnerClearRunner<CR>
 
 " Stop execution in pane
-map <Leader>vx :VimTmuxStopRunner<CR>
+map <Leader>vx :TmuxRunnerStopRunner<CR>
 
 " Set new pane as runner
-map <leader>vs :VimTmuxPromptRunner<CR>
+map <leader>vs :TmuxRunnerPromptRunner<CR>
 ```
 
 *Options:*
 ```
 " Runner pane size
-let g:VimTmuxRunnerSize = 20
+let g:TmuxRunnerSize = 20
 
 " Runner pane split orientation
-let g:VimTmuxRunnerOrientation = 'v'
+let g:TmuxRunnerOrientation = 'v'
 
 " Define how new runners are chosen
-let g:VimTmuxNewRunnerMode = 'new'
+let g:TmuxRunnerNewRunnerMode = 'new'
 
 " Custom order for 'nearest' mode
-let g:VimTmuxRunnerNearestSelectionOrder = ['down-of', 'right-of']
+let g:TmuxRunnerNearestSelectionOrder = ['down-of', 'right-of']
 
 " Tmux executable to use
-let g:VimTmuxExecutable = 'tmate'
+let g:TmuxRunnerExecutable = 'tmate'
 ```
-For more information `:help vimtmux` or online [docs](./doc/vimtmux.txt).
+For more information `:help tmux-runner` or online [docs](./doc/tmux-runner.txt).
 
 # License
 
