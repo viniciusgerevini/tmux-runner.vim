@@ -39,14 +39,14 @@ Overview:~
   |TmuxRunnerEditCommand|..........Edit last command and execute it
   |TmuxRunnerSetRunner|............Set pane as runner by index, id or name
   |TmuxRunnerPromptRunner|.........Show input for setting new runner
-  |TmuxRunnerOpenRunner|...........Open new runner
-  |TmuxRunnerCloseRunner|..........Close current runner
-  |TmuxRunnerStopRunner|...........Send stop signal to runner
-  |TmuxRunnerZoomRunner|...........Zoom runner
-  |TmuxRunnerClearRunner|..........Clean runner content and history
-  |TmuxRunnerInspectRunner|........Focus runner in copy-mode
-  |TmuxRunnerScrollUpRunner|.......Scroll up runner without leaving VIM
-  |TmuxRunnerScrollDownRunner|.....Scroll down runner without leaving VIM
+  |TmuxRunnerOpen|.................Open new runner
+  |TmuxRunnerClose|................Close current runner
+  |TmuxRunnerStop|.................Send stop signal to runner
+  |TmuxRunnerZoom|.................Zoom runner
+  |TmuxRunnerClear|................Clean runner content and history
+  |TmuxRunnerInspect|..............Focus runner in copy-mode
+  |TmuxRunnerScrollUp|.............Scroll up runner without leaving VIM
+  |TmuxRunnerScrollDown|...........Scroll down runner without leaving VIM
   |TmuxRunnerSendKeys|.............Send keys to the runner pane
   |TmuxRunnerSendText|.............Send raw text to the runner pane
 
@@ -135,53 +135,53 @@ Prompt for a number/id to be used as runner. Possible inputs are the same as
 the ones shown in |TmuxRunnerSetRunner|.
 
 -------------------------------------------------------------------------------
-                                                            *TmuxRunnerOpenRunner*
-TmuxRunnerOpenRunner~
+                                                            *TmuxRunnerOpen*
+TmuxRunnerOpen~
 
 Open a new pane to be used as runner. You can change the default orientation
 and size by using the options |g:TmuxRunnerOrientation| and
 |g:TmuxRunnerSize|.
 
 -------------------------------------------------------------------------------
-                                                           *TmuxRunnerCloseRunner*
-TmuxRunnerCloseRunner~
+                                                           *TmuxRunnerClose*
+TmuxRunnerClose~
 
 Close current runner.
 
 -------------------------------------------------------------------------------
-                                                            *TmuxRunnerStopRunner*
-TmuxRunnerStopRunner~
+                                                            *TmuxRunnerStop*
+TmuxRunnerStop~
 
 Stops commands executing in the runner pane.
 
 -------------------------------------------------------------------------------
-                                                            *TmuxRunnerZoomRunner*
-TmuxRunnerZoomRunner~
+                                                            *TmuxRunnerZoom*
+TmuxRunnerZoom~
 
 Zoom the runner pane. Once zoomed, you need to use Tmux zoom command to restore
 it back.
 
 -------------------------------------------------------------------------------
-                                                           *TmuxRunnerClearRunner*
-TmuxRunnerClearRunner~
+                                                           *TmuxRunnerClear*
+TmuxRunnerClear~
 
 Clear current content and history in the runner pane.
 
 -------------------------------------------------------------------------------
-                                                         *TmuxRunnerInspectRunner*
-TmuxRunnerInspectRunner~
+                                                         *TmuxRunnerInspect*
+TmuxRunnerInspect~
 
 Move into the runner pane and enter copy-mode (scroll).
 
 -------------------------------------------------------------------------------
-                                                        *TmuxRunnerScrollUpRunner*
-TmuxRunnerScrollUpRunner~
+                                                        *TmuxRunnerScrollUp*
+TmuxRunnerScrollUp~
 
 Scroll runner pane half screen up without leaving VIM.
 
 -------------------------------------------------------------------------------
-                                                      *TmuxRunnerScrollDownRunner*
-TmuxRunnerScrollDownRunner~
+                                                      *TmuxRunnerScrollDown*
+TmuxRunnerScrollDown~
 
 Scroll runner pane half screen down without leaving VIM.
 
@@ -190,7 +190,7 @@ Scroll runner pane half screen down without leaving VIM.
 TmuxRunnerSendKeys~
 
 Send keys to the runner pane. This command will not open a new pane if one
-does not already exist. You will need to use |TmuxRunnerOpenRunner| to do this.
+does not already exist. You will need to use |TmuxRunnerOpen| to do this.
 You can use this command to send keys such as "Enter" or "C-c" to the runner
 pane.
 
@@ -199,7 +199,7 @@ pane.
 TmuxRunnerSendText~
 
 Send raw text to the runner pane. This command will not open a new pane if one
-does not already exist. You will need to use |TmuxRunnerOpenRunner| to do this.
+does not already exist. You will need to use |TmuxRunnerOpen| to do this.
 This command can be used to interact with REPLs or other interactive terminal
 programs that are not shells.
 
@@ -332,25 +332,25 @@ Here are some ideas for mappings:
   map <Leader>ve :TmuxRunnerEditCommand<CR>
 
   " Inspect runner pane
-  map <Leader>vi :TmuxRunnerInspectRunner<CR>
+  map <Leader>vi :TmuxRunnerInspect<CR>
 
   " Scroll down pane
-  map <Leader>vd :TmuxRunnerScrollDownRunner<CR>
+  map <Leader>vd :TmuxRunnerScrollDown<CR>
 
   " Scroll up pane
-  map <Leader>vu :TmuxRunnerScrollUpRunner<CR>
+  map <Leader>vu :TmuxRunnerScrollUp<CR>
 
   " Zoom the tmux runner pane
-  map <Leader>vz :TmuxRunnerZoomRunner<CR>
+  map <Leader>vz :TmuxRunnerZoom<CR>
 
   " Close pane
-  map <Leader>vq :TmuxRunnerCloseRunner<CR>
+  map <Leader>vq :TmuxRunnerClose<CR>
 
   " Clear pane
-  map <Leader>vc :TmuxRunnerClearRunner<CR>
+  map <Leader>vc :TmuxRunnerClear<CR>
 
   " Stop execution in pane
-  map <Leader>vx :TmuxRunnerStopRunner<CR>
+  map <Leader>vx :TmuxRunnerStop<CR>
 
   " Set new pane as runner
   map <leader>vs :TmuxRunnerPromptRunner<CR>

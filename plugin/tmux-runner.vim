@@ -10,14 +10,14 @@ command TmuxRunnerRunLastCommand :call TmuxRunnerRunLastCommand()
 command TmuxRunnerEditCommand :call TmuxRunnerEditCommand()
 command -nargs=? TmuxRunnerSetRunner :call TmuxRunnerSetRunner(<args>)
 command -nargs=? TmuxRunnerPromptRunner :call TmuxRunnerPromptRunner(<args>)
-command TmuxRunnerOpenRunner :call TmuxRunnerOpenRunner()
-command TmuxRunnerCloseRunner :call TmuxRunnerCloseRunner()
-command TmuxRunnerStopRunner :call TmuxRunnerStopRunner()
-command TmuxRunnerZoomRunner :call TmuxRunnerZoomRunner()
-command TmuxRunnerClearRunner :call TmuxRunnerClearRunner()
-command TmuxRunnerInspectRunner :call TmuxRunnerInspectRunner()
-command TmuxRunnerScrollUpRunner :call TmuxRunnerScrollUpRunner()
-command TmuxRunnerScrollDownRunner :call TmuxRunnerScrollDownRunner()
+command TmuxRunnerOpen :call TmuxRunnerOpen()
+command TmuxRunnerClose :call TmuxRunnerClose()
+command TmuxRunnerStop :call TmuxRunnerStop()
+command TmuxRunnerZoom :call TmuxRunnerZoom()
+command TmuxRunnerClear :call TmuxRunnerClear()
+command TmuxRunnerInspect :call TmuxRunnerInspect()
+command TmuxRunnerScrollUp :call TmuxRunnerScrollUp()
+command TmuxRunnerScrollDown :call TmuxRunnerScrollDown()
 
 function! TmuxRunnerRunCommand(command, ...)
   if s:TmuxRunnerDoesPaneExist() == 0
@@ -107,7 +107,7 @@ function! s:TmuxRunnerDoesPaneExist()
   return v:shell_error == 0
 endfunction
 
-function! TmuxRunnerOpenRunner()
+function! TmuxRunnerOpen()
   let l:orientation = s:TmuxRunnerOptionRunnerOrientation()
   let l:size = s:TmuxRunnerOptionRunnerSize()
 
@@ -116,24 +116,24 @@ function! TmuxRunnerOpenRunner()
   call s:TmuxRunnerCommand("last-pane")
 endfunction
 
-function! TmuxRunnerCloseRunner()
+function! TmuxRunnerClose()
   if s:TmuxRunnerDoesPaneExist() == 1
     call s:TmuxRunnerCommand("kill-pane -t ".g:TmuxRunnerId)
     unlet g:TmuxRunnerId
   endif
 endfunction
 
-function! TmuxRunnerStopRunner()
+function! TmuxRunnerStop()
   call TmuxRunnerSendKeys("^c")
 endfunction
 
-function! TmuxRunnerZoomRunner()
+function! TmuxRunnerZoom()
   if s:TmuxRunnerDoesPaneExist() == 1
     call s:TmuxRunnerCommand("resize-pane -Z -t ".g:TmuxRunnerId)
   endif
 endfunction
 
-function! TmuxRunnerClearRunner()
+function! TmuxRunnerClear()
   if s:TmuxRunnerDoesPaneExist() == 1
     call TmuxRunnerSendText("clear")
     call TmuxRunnerSendKeys("Enter")
@@ -141,24 +141,24 @@ function! TmuxRunnerClearRunner()
   endif
 endfunction
 
-function! TmuxRunnerInspectRunner()
+function! TmuxRunnerInspect()
   if s:TmuxRunnerDoesPaneExist() == 1
     call s:TmuxRunnerCommand("select-pane -t ".g:TmuxRunnerId)
     call s:TmuxRunnerCommand("copy-mode")
   endif
 endfunction
 
-function! TmuxRunnerScrollUpRunner()
+function! TmuxRunnerScrollUp()
   if s:TmuxRunnerDoesPaneExist() == 1
-    call TmuxRunnerInspectRunner()
+    call TmuxRunnerInspect()
     call TmuxRunnerSendKeys("C-u")
     call s:TmuxRunnerCommand("last-pane")
   endif
 endfunction
 
-function! TmuxRunnerScrollDownRunner()
+function! TmuxRunnerScrollDown()
   if s:TmuxRunnerDoesPaneExist() == 1
-    call TmuxRunnerInspectRunner()
+    call TmuxRunnerInspect()
     call TmuxRunnerSendKeys("C-d")
     call s:TmuxRunnerCommand("last-pane")
   endif
@@ -168,7 +168,7 @@ function! s:TmuxRunnerStartRunner()
   let l:runnerMode = exists("g:TmuxRunnerNewRunnerMode") ? g:TmuxRunnerNewRunnerMode : "new"
 
   if l:runnerMode == 'new'
-    call TmuxRunnerOpenRunner()
+    call TmuxRunnerOpen()
     return 1
   elseif l:runnerMode == 'nearest'
     call s:TmuxRunnerNewRunnerWithNearestPane()
@@ -195,7 +195,7 @@ function! s:TmuxRunnerNewRunnerWithNearestPane()
     endif
   endfor
 
-  call TmuxRunnerOpenRunner()
+  call TmuxRunnerOpen()
 endfunction
 
 function! s:TmuxRunnerNearestSelectionOrder()
@@ -217,7 +217,7 @@ function! s:TmuxRunnerNewRunnerLastActivePane()
   call s:TmuxRunnerCommand("last-pane")
 
   if l:currentPaneId == l:lastActivePaneId
-    call TmuxRunnerOpenRunner()
+    call TmuxRunnerOpen()
   else
     let g:TmuxRunnerId = l:lastActivePaneId
   endif

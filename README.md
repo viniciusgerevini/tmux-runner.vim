@@ -37,25 +37,25 @@ map <Leader>vl :TmuxRunnerRunLastCommand<CR>
 map <Leader>ve :TmuxRunnerEditCommand<CR>
 
 " Inspect runner pane
-map <Leader>vi :TmuxRunnerInspectRunner<CR>
+map <Leader>vi :TmuxRunnerInspect<CR>
 
 " Scroll down pane
-map <Leader>vd :TmuxRunnerScrollDownRunner<CR>
+map <Leader>vd :TmuxRunnerScrollDown<CR>
 
 " Scroll up pane
-map <Leader>vu :TmuxRunnerScrollUpRunner<CR>
+map <Leader>vu :TmuxRunnerScrollUp<CR>
 
 " Zoom the tmux runner pane
-map <Leader>vz :TmuxRunnerZoomRunner<CR>
+map <Leader>vz :TmuxRunnerZoom<CR>
 
 " Close pane
-map <Leader>vq :TmuxRunnerCloseRunner<CR>
+map <Leader>vq :TmuxRunnerClose<CR>
 
 " Clear pane
-map <Leader>vc :TmuxRunnerClearRunner<CR>
+map <Leader>vc :TmuxRunnerClear<CR>
 
 " Stop execution in pane
-map <Leader>vx :TmuxRunnerStopRunner<CR>
+map <Leader>vx :TmuxRunnerStop<CR>
 
 " Set new pane as runner
 map <leader>vs :TmuxRunnerPromptRunner<CR>
